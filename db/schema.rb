@@ -11,7 +11,72 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207122924) do
+ActiveRecord::Schema.define(version: 20151207132114) do
+
+  create_table "authors", force: :cascade do |t|
+    t.string   "name",         null: false
+    t.string   "organization", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "book_publishers", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "publisher_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "book_publishers", ["book_id"], name: "index_book_publishers_on_book_id"
+  add_index "book_publishers", ["publisher_id"], name: "index_book_publishers_on_publisher_id"
+
+  create_table "books", force: :cascade do |t|
+    t.string   "isbn",                    null: false
+    t.string   "title",                   null: false
+    t.date     "year",                    null: false
+    t.integer  "copy_number", default: 0, null: false
+    t.string   "category"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "books_authors", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "books_authors", ["author_id"], name: "index_books_authors_on_author_id"
+  add_index "books_authors", ["book_id"], name: "index_books_authors_on_book_id"
+
+  create_table "copies", force: :cascade do |t|
+    t.integer  "book_id",    null: false
+    t.date     "enter_time", null: false
+    t.integer  "state",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "publishers", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "address",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "receipts", force: :cascade do |t|
+    t.integer  "user_id",       null: false
+    t.integer  "copy_id",       null: false
+    t.date     "lent_out_date"
+    t.date     "due_date"
+    t.date     "back_date"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "receipts", ["copy_id"], name: "index_receipts_on_copy_id"
+  add_index "receipts", ["user_id"], name: "index_receipts_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
