@@ -1,7 +1,12 @@
 class CopiesController < ApplicationController
-    def index
+    before_action :find_Book
+    
+    def show
+        @copies = @book.copies
     end
 
-    def show
+    protected
+    def find_Book
+        @book = Book.find params[:book_id]
     end
 end

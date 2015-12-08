@@ -2,6 +2,20 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+#    if user.blank?
+#        cannot :manage, :all
+#        basic_read_only
+#    elsif user.has_role?(:admin)
+#        can :manage, User
+#    elsif user.has_role?(:librian)
+#        can :manage, Book
+#        can :manage, Copy
+#    elsif user.has_role?(:member)
+#        can :borrow, Book
+#    else
+#        cannot :manage, :all
+#        basic_read_only
+#    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -28,5 +42,13 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+  end
+  private
+  def basic_read_only
+    can :show, Book
+    can :index, Book
+    can :search, Home
+    can :index, Home
+    can :show, Copy
   end
 end

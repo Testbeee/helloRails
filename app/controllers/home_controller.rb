@@ -1,8 +1,11 @@
 class HomeController < ApplicationController
   def index
-    
-  end
 
-  def search
+    if params[:keyword]
+        @books = Book.where( [ "title like ?", "%#{params[:keyword]}%" ] )
+    else
+## TODO
+    end
+    
   end
 end
