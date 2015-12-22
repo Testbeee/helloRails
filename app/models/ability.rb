@@ -2,20 +2,25 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-#    if user.blank?
-#        cannot :manage, :all
-#        basic_read_only
-#    elsif user.has_role?(:admin)
-#        can :manage, User
-#    elsif user.has_role?(:librian)
-#        can :manage, Book
-#        can :manage, Copy
-#    elsif user.has_role?(:member)
-#        can :borrow, Book
-#    else
-#        cannot :manage, :all
-#        basic_read_only
-#    end
+    if user.blank?
+        basic_read_only
+    elsif user.has_role?(:admin)
+        basic_read_only
+        can :manage, User
+    elsif user.has_role?(:librarian)
+        basic_read_only
+        book_and_borrow(user)
+        can :manage, Book
+        can :manage, Copy
+        can :manage, Author
+        can :manage, Publisher
+    elsif user.has_role?(:reader)
+        basic_read_only
+        book_and_borrow(user)
+        can :appoint, Book
+    else
+        basic_read_only
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -45,10 +50,24 @@ class Ability
   end
   private
   def basic_read_only
-    can :show, Book
-    can :index, Book
-    can :search, Home
-    can :index, Home
+    can :read ,Book
     can :show, Copy
+    can :show, Author
+    can :show, Publisher
+  end
+  def book_and_borrow(user)
+        can :show, User do |u|
+            (u.id == user.id)
+        end
+        can :update, Bill do |b|
+            (b.user_id == user.id)
+        end
+        can :destroy, Bill do |b|
+            (b.user_id == user.id)
+        end
+        can :update, Receipt do |r|
+            (r.user_id == user.id)
+        end
+
   end
 end

@@ -1,5 +1,27 @@
 Rails.application.routes.draw do
-  devise_for :users
+  resources :searches, only:[:show,:new,:create]
+
+  devise_for :users , :path => 'accounts'
+  resources :books do
+    member do
+        post :appoint
+        post :add_copy
+    end
+  end
+
+  resources :publishers
+  resources :authors
+  namespace :librarian do
+    resources :bills
+    resources :receipts
+  end
+  namespace :admin do
+    resources :users
+  end
+  resources :users do
+    resources :bills
+    resources :receipts
+  end 
   root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

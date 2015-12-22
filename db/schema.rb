@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207133536) do
+ActiveRecord::Schema.define(version: 20151220094551) do
 
   create_table "authors", force: :cascade do |t|
     t.string   "name",         null: false
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(version: 20151207133536) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "bills", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "copy_id"
+    t.date     "reserve_time"
+    t.date     "due_time"
+    t.date     "take_date"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "bills", ["copy_id"], name: "index_bills_on_copy_id"
+  add_index "bills", ["user_id"], name: "index_bills_on_user_id"
 
   create_table "book_publishers", force: :cascade do |t|
     t.integer  "book_id"
@@ -31,13 +44,13 @@ ActiveRecord::Schema.define(version: 20151207133536) do
   add_index "book_publishers", ["publisher_id"], name: "index_book_publishers_on_publisher_id"
 
   create_table "books", force: :cascade do |t|
-    t.string   "isbn",                    null: false
-    t.string   "title",                   null: false
-    t.date     "year",                    null: false
-    t.integer  "copy_number", default: 0, null: false
+    t.string   "isbn",        null: false
+    t.string   "title",       null: false
+    t.date     "year",        null: false
+    t.integer  "copy_number", null: false
     t.string   "category"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "books_authors", force: :cascade do |t|
@@ -88,6 +101,14 @@ ActiveRecord::Schema.define(version: 20151207133536) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], name: "index_roles_on_name"
+
+  create_table "searches", force: :cascade do |t|
+    t.string   "keyword"
+    t.string   "authors"
+    t.integer  "publisher_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
