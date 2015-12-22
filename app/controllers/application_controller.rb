@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     if current_user.nil?
         redirect_to new_user_session_url, :alert => "You have to log in to continue."
     else
-        redirect_to root_url, :alert => "access denied"
+        redirect_to books_url, :alert => "access denied"
     end
   end
 
