@@ -10,17 +10,12 @@ class AuthorsController < ApplicationController
     end
 
     def update
-#        @author = Author.find params[:id]
-        if session[:edit_book_id]
-        if @author.update( author_params )
-#            redirect_to author_url(@author)
-            redirect_to book_url(session[:edit_book_id])
-        else
-            render :action => :edit
-        end
-        else
-            redirect_to root_url
-        end
+        @author = Author.find params[:id]
+            if @author.update( author_params )
+                redirect_to author_url(@author)
+            else
+                render :action => :edit
+            end
     end
 
     protected

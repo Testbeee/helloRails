@@ -1,4 +1,7 @@
 <h1> 出版社介紹 </h1>
+<% if can? :update, Publisher %>
+    <%= button_to "修改出版社資料", edit_publisher_url(@publisher), {method: :get , class:"btn btn-default"}%>
+<% end %>
 <h3>資料</h3>
 <table class="table">
     <thead>

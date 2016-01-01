@@ -1,4 +1,7 @@
 <h1> 作者介紹 </h1>
+<% if can? :update, Author %>
+    <%= button_to "修改作者資料", edit_author_url(@author), {method: :get , class:"btn btn-default"}%>
+<% end %>
 <h3>資料</h3>
 <table class="table">
     <thead>

@@ -12,16 +12,16 @@ class PublishersController < ApplicationController
     def update
 #        @publisher = Publisher.find params[:id]
 
-        if session[:edit_book_id]
+#        if session[:edit_book_id]
         if @publisher.update ( publisher_parmas )
-#            redirect_to publisher_url(@publisher)
-             redirect_to book_url(session[:edit_book_id])
+            redirect_to publisher_url(@publisher)
+#             redirect_to book_url(session[:edit_book_id])
         else
             render :action => :edit
         end
-        else
-            redirect_to root_url
-        end
+#        else
+#            redirect_to root_url
+#        end
     end
 
     protected
